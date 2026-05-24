@@ -5,12 +5,13 @@ interface Props {
 const { lang } = Astro.props;
 
 const labels = {
-  en: { home: 'Home', about: 'About', ja: '日本語' },
-  ja: { home: 'ホーム', about: 'About', ja: 'EN' },
+  en: { home: 'Home', blog: 'Articles', about: 'About', ja: '日本語' },
+  ja: { home: 'ホーム', blog: '記事', about: 'About', ja: 'EN' },
 };
 const l = labels[lang];
 
 const homeHref = lang === 'en' ? '/' : '/ja/';
+const blogHref = lang === 'en' ? '/blog/' : '/ja/blog/';
 const aboutHref = lang === 'en' ? '/about/' : '/ja/about/';
 const langSwitchHref = lang === 'en' ? '/ja/' : '/';
 ---
@@ -22,6 +23,7 @@ const langSwitchHref = lang === 'en' ? '/ja/' : '/';
     </a>
     <div class="flex items-center gap-6 text-sm">
       <a href={homeHref}>{l.home}</a>
+      <a href={blogHref}>{l.blog}</a>
       <a href={aboutHref}>{l.about}</a>
       <a href={langSwitchHref} class="text-[var(--color-text-muted)]">{l.ja}</a>
     </div>

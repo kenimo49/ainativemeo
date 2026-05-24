@@ -1,0 +1,36 @@
+---
+import { getCollection, render } from 'astro:content';
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import { blogAlternates } from '../../../lib/alternates';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog');
+  const posts = allPosts.filter(p => p.data.lang === 'ja');
+  return posts.map(post => {
+    const slug = post.id.replace('ja/', '');
+    return {
+      params: { slug },
+      props: { post, alternates: blogAlternates(allPosts, slug) },
+    };
+  });
+}
+
+const { post, alternates } = Astro.props;
+const { Content } = await render(post);
+const canonicalUrl = post.data.canonical_url ?? `https://ainativemeo.com/ja/blog/${post.id.replace('ja/', '')}/`;
+---
+
+<BlogLayout
+  title={post.data.title}
+  description={post.data.description}
+  lang="ja"
+  date={post.data.date}
+  updated={post.data.updated}
+  category={post.data.category}
+  tags={post.data.tags}
+  canonicalUrl={canonicalUrl}
+  ogImage={post.data.og_image}
+  alternates={alternates}
+>
+  <Content />
+</BlogLayout>

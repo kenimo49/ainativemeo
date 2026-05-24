@@ -1,0 +1,223 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import type { Alternate } from '../lib/alternates';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: 'en' | 'ja';
+  date: Date;
+  updated?: Date;
+  category?: 'framework' | 'engineering' | 'comparison';
+  tags: string[];
+  canonicalUrl: string;
+  ogImage?: string;
+  alternates?: Alternate[];
+}
+
+const { title, description, lang, date, updated, category, tags, canonicalUrl, ogImage, alternates = [] } = Astro.props;
+const formattedDate = date.toISOString().split('T')[0];
+const siteUrl = 'https://ainativemeo.com';
+const blogIndexUrl = lang === 'ja' ? '/ja/blog/' : '/blog/';
+
+const categoryLabel = (cat?: string) => {
+  if (!cat) return '';
+  const labels: Record<string, { en: string; ja: string }> = {
+    framework: { en: 'Framework', ja: 'フレームワーク' },
+    engineering: { en: 'Engineering', ja: 'エンジニアリング' },
+    comparison: { en: 'Comparison', ja: '比較' },
+  };
+  return labels[cat]?.[lang === 'ja' ? 'ja' : 'en'] || cat;
+};
+
+const blogPostingJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  image: ogImage
+    ? (ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteUrl).href)
+    : `${siteUrl}/og-default.png`,
+  datePublished: date.toISOString(),
+  dateModified: (updated ?? date).toISOString(),
+  author: {
+    '@type': 'Person',
+    '@id': 'https://kenimoto.dev/#person',
+    name: 'Ken Imoto',
+    url: 'https://kenimoto.dev/',
+    sameAs: [
+      'https://kenimoto.dev/',
+      'https://github.com/kenimo49',
+    ],
+    worksFor: {
+      '@type': 'Organization',
+      name: 'Propel-Lab LLC',
+      url: 'https://propel-lab.co.jp/',
+    },
+  },
+  publisher: {
+    '@type': 'Organization',
+    '@id': `${siteUrl}/#organization`,
+    name: 'AI Native MEO',
+    url: `${siteUrl}/`,
+  },
+  url: canonicalUrl,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
+  ...(tags && tags.length > 0 ? { keywords: tags.join(', ') } : {}),
+  ...(category ? { articleSection: categoryLabel(category) } : {}),
+  inLanguage: lang === 'ja' ? 'ja-JP' : 'en-US',
+  isBasedOn: {
+    '@type': 'CreativeWork',
+    name: 'LLMO Framework',
+    url: 'https://llmoframework.com/',
+  },
+};
+
+const homeUrl = lang === 'ja' ? `${siteUrl}/ja/` : `${siteUrl}/`;
+const blogUrl = lang === 'ja' ? `${siteUrl}/ja/blog/` : `${siteUrl}/blog/`;
+const breadcrumbItems = [
+  { name: lang === 'ja' ? 'ホーム' : 'Home', url: homeUrl },
+  { name: lang === 'ja' ? '記事' : 'Articles', url: blogUrl },
+  { name: title, url: canonicalUrl },
+];
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbItems.map((item, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    name: item.name,
+    item: item.url,
+  })),
+};
+
+const articleMeta = {
+  publishedTime: date.toISOString(),
+  modifiedTime: (updated ?? date).toISOString(),
+  author: 'Ken Imoto',
+  ...(category ? { section: categoryLabel(category) } : {}),
+  ...(tags && tags.length > 0 ? { tags } : {}),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  ogUrl={canonicalUrl}
+>
+  <Nav lang={lang} />
+
+  <article class="max-w-3xl mx-auto px-6 py-12">
+    <header class="mb-10 pb-8 border-b border-[var(--color-border)]">
+      <div class="flex items-center gap-3 text-sm text-[var(--color-text-muted)] mb-4">
+        {category && (
+          <span class="uppercase tracking-wider">{categoryLabel(category)}</span>
+        )}
+        <time datetime={formattedDate}>{formattedDate}</time>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">{title}</h1>
+      <p class="text-xl text-[var(--color-text-muted)] leading-relaxed">{description}</p>
+    </header>
+
+    <div class="prose-content">
+      <slot />
+    </div>
+
+    <footer class="mt-16 pt-8 border-t border-[var(--color-border)] text-sm text-[var(--color-text-muted)]">
+      <p>
+        AI Native MEO is built on the
+        <a href="https://llmoframework.com/" class="text-[var(--color-accent)]">LLMO Framework</a>.
+        Part of <a href="https://kenimoto.dev/" class="text-[var(--color-accent)]">Ken Imoto</a>'s research and publication ecosystem.
+      </p>
+      <p class="mt-2">
+        <a href={blogIndexUrl} class="text-[var(--color-accent)]">
+          {lang === 'ja' ? '← 記事一覧に戻る' : '← Back to articles'}
+        </a>
+      </p>
+    </footer>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify(blogPostingJsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+
+  <style is:global>
+    .prose-content {
+      color: var(--color-text);
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+    .prose-content h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      color: var(--color-text);
+    }
+    .prose-content h3 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-top: 2.25rem;
+      margin-bottom: 0.75rem;
+      color: var(--color-text);
+    }
+    .prose-content p {
+      margin-bottom: 1.25rem;
+    }
+    .prose-content ul, .prose-content ol {
+      margin: 1rem 0 1.5rem 1.5rem;
+    }
+    .prose-content li {
+      margin-bottom: 0.5rem;
+    }
+    .prose-content a {
+      color: var(--color-accent);
+    }
+    .prose-content a:hover {
+      color: var(--color-accent-hover);
+    }
+    .prose-content strong {
+      color: var(--color-text);
+      font-weight: 600;
+    }
+    .prose-content code {
+      background: var(--color-bg-card);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .prose-content pre {
+      background: var(--color-bg-card);
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+    }
+    .prose-content pre code {
+      background: transparent;
+      padding: 0;
+    }
+    .prose-content blockquote {
+      border-left: 3px solid var(--color-accent);
+      padding-left: 1rem;
+      margin: 1.5rem 0;
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+    .prose-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+    .prose-content th, .prose-content td {
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--color-border);
+      text-align: left;
+    }
+    .prose-content th {
+      background: var(--color-bg-card);
+      font-weight: 600;
+    }
+  </style>
+</BaseLayout>

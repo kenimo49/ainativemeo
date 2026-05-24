@@ -1,10 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter(p => p.data.lang === 'en')
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
 
 const title = 'AI Native MEO — LLMO Framework Local Business Implementation';
 const description = 'AI Native MEO is the LLMO Framework implementation for local businesses. Engineer-led, evidence-based optimization for the AI-driven local search era.';
 const ogUrl = 'https://ainativemeo.com/';
+
+const categoryLabel = (cat: string) => {
+  return { framework: 'Framework', engineering: 'Engineering', comparison: 'Comparison' }[cat] || cat;
+};
 ---
 
 <BaseLayout title={title} description={description} lang="en" ogUrl={ogUrl}>
@@ -43,15 +53,30 @@ const ogUrl = 'https://ainativemeo.com/';
       </p>
     </section>
 
-    <section class="mb-16">
-      <h2 class="text-2xl font-bold mb-4">Coming Soon</h2>
-      <ul class="space-y-3 text-[var(--color-text-muted)]">
-        <li>• The book — <em>Engineering AI Native MEO</em> (Kindle JP first, EN to follow)</li>
-        <li>• Weekly engineering deep-dives on GBP, JSON-LD, and how each AI engine cites local data</li>
-        <li>• LLMO vs GEO vs AEO — a precise comparison from the implementation layer</li>
-        <li>• Industry case studies built on top of the LLMO Framework</li>
-      </ul>
-    </section>
+    {posts.length > 0 && (
+      <section class="mb-16">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold">Latest articles</h2>
+          <a href="/blog/" class="text-sm text-[var(--color-accent)]">All articles →</a>
+        </div>
+        <div class="flex flex-col gap-6">
+          {posts.map(post => (
+            <a href={`/blog/${post.id.replace('en/', '')}/`} class="block group hover:no-underline">
+              <article class="pb-5 border-b border-[var(--color-border)]">
+                <div class="flex items-center gap-3 text-xs uppercase tracking-wider text-[var(--color-text-muted)] mb-2">
+                  <span>{categoryLabel(post.data.category)}</span>
+                  <time datetime={post.data.date.toISOString()}>{post.data.date.toISOString().split('T')[0]}</time>
+                </div>
+                <h3 class="text-lg font-bold mb-1 text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">
+                  {post.data.title}
+                </h3>
+                <p class="text-sm text-[var(--color-text-muted)]">{post.data.description}</p>
+              </article>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
 
     <footer class="pt-8 border-t border-[var(--color-border)] text-sm text-[var(--color-text-muted)]">
       <p>

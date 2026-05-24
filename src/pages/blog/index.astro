@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter(p => p.data.lang === 'en')
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const categoryLabel = (cat: string) => {
+  return { framework: 'Framework', engineering: 'Engineering', comparison: 'Comparison' }[cat] || cat;
+};
+---
+
+<BaseLayout
+  title="Articles — AI Native MEO"
+  description="Engineering deep-dives on AI Native MEO, the LLMO Framework, JSON-LD, Google Business Profile, and how each AI engine cites local data."
+  lang="en"
+  ogUrl="https://ainativemeo.com/blog/"
+>
+  <Nav lang="en" />
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <header class="mb-12">
+      <h1 class="text-3xl font-bold mb-3">Articles</h1>
+      <p class="text-[var(--color-text-muted)] leading-relaxed">
+        Framework, engineering, and comparison pieces on AI Native MEO and the LLMO Framework.
+      </p>
+    </header>
+
+    <div class="flex flex-col gap-8">
+      {posts.map(post => (
+        <a href={`/blog/${post.id.replace('en/', '')}/`} class="block group hover:no-underline">
+          <article class="pb-6 border-b border-[var(--color-border)]">
+            <div class="flex items-center gap-3 text-xs uppercase tracking-wider text-[var(--color-text-muted)] mb-2">
+              <span>{categoryLabel(post.data.category)}</span>
+              <time datetime={post.data.date.toISOString()}>{post.data.date.toISOString().split('T')[0]}</time>
+            </div>
+            <h2 class="text-2xl font-bold mb-2 text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">
+              {post.data.title}
+            </h2>
+            <p class="text-[var(--color-text-muted)] leading-relaxed">{post.data.description}</p>
+          </article>
+        </a>
+      ))}
+    </div>
+  </main>
+</BaseLayout>

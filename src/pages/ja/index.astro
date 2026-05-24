@@ -1,10 +1,20 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter(p => p.data.lang === 'ja')
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
 
 const title = 'AI Native MEO — LLMO Framework のローカルビジネス実装';
 const description = 'AI Native MEO は LLMO Framework をローカルビジネス領域に実装する方法論。AIに選ばれる店舗をつくるための、エンジニア視点の体系化。';
 const ogUrl = 'https://ainativemeo.com/ja/';
+
+const categoryLabel = (cat: string) => {
+  return { framework: 'フレームワーク', engineering: 'エンジニアリング', comparison: '比較' }[cat] || cat;
+};
 ---
 
 <BaseLayout title={title} description={description} lang="ja" ogUrl={ogUrl}>
@@ -39,15 +49,30 @@ const ogUrl = 'https://ainativemeo.com/ja/';
       </p>
     </section>
 
-    <section class="mb-16">
-      <h2 class="text-2xl font-bold mb-4">これから公開予定</h2>
-      <ul class="space-y-3 text-[var(--color-text-muted)]">
-        <li>• 書籍『AIに選ばれる店をつくる — 店舗オーナーのための AI Native MEO 入門』(Kindle JP 先行公開予定)</li>
-        <li>• GBP / JSON-LD / 各 AI エンジンの引用挙動に関する週次エンジニアリング解説</li>
-        <li>• LLMO vs GEO vs AEO — 実装レイヤーからの精密な比較</li>
-        <li>• LLMO Framework 上の業界別ケーススタディ</li>
-      </ul>
-    </section>
+    {posts.length > 0 && (
+      <section class="mb-16">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold">最新記事</h2>
+          <a href="/ja/blog/" class="text-sm text-[var(--color-accent)]">記事一覧 →</a>
+        </div>
+        <div class="flex flex-col gap-6">
+          {posts.map(post => (
+            <a href={`/ja/blog/${post.id.replace('ja/', '')}/`} class="block group hover:no-underline">
+              <article class="pb-5 border-b border-[var(--color-border)]">
+                <div class="flex items-center gap-3 text-xs uppercase tracking-wider text-[var(--color-text-muted)] mb-2">
+                  <span>{categoryLabel(post.data.category)}</span>
+                  <time datetime={post.data.date.toISOString()}>{post.data.date.toISOString().split('T')[0]}</time>
+                </div>
+                <h3 class="text-lg font-bold mb-1 text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">
+                  {post.data.title}
+                </h3>
+                <p class="text-sm text-[var(--color-text-muted)]">{post.data.description}</p>
+              </article>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
 
     <footer class="pt-8 border-t border-[var(--color-border)] text-sm text-[var(--color-text-muted)]">
       <p>
