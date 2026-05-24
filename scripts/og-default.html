@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px;
+    height: 630px;
+    background: #0a0e1a;
+    background-image:
+      radial-gradient(ellipse at top right, rgba(99, 102, 241, 0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at bottom left, rgba(99, 102, 241, 0.08) 0%, transparent 50%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    color: #e6edf3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 70px 80px;
+    overflow: hidden;
+    position: relative;
+  }
+  .pin-mark {
+    position: absolute;
+    right: 80px;
+    top: 70px;
+    width: 110px;
+    height: 110px;
+  }
+  .top {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .badge {
+    display: inline-block;
+    width: fit-content;
+    padding: 8px 18px;
+    border: 1px solid #6366f1;
+    border-radius: 999px;
+    font-size: 18px;
+    color: #818cf8;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  h1 {
+    font-size: 96px;
+    line-height: 1.05;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    margin-top: 24px;
+    max-width: 980px;
+  }
+  .subtitle {
+    font-size: 28px;
+    line-height: 1.45;
+    color: #8b95a7;
+    margin-top: 22px;
+    max-width: 900px;
+    font-weight: 400;
+  }
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #1f2937;
+    padding-top: 24px;
+  }
+  .domain {
+    font-size: 24px;
+    color: #e6edf3;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .author {
+    font-size: 20px;
+    color: #8b95a7;
+    font-weight: 400;
+  }
+  .author strong {
+    color: #e6edf3;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+  <svg class="pin-mark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M32 8 C22 8 14 16 14 26 C14 38 32 56 32 56 C32 56 50 38 50 26 C50 16 42 8 32 8 Z"
+      fill="none"
+      stroke="#6366f1"
+      stroke-width="2.5"
+      stroke-linejoin="round"
+    />
+    <circle cx="32" cy="26" r="6" fill="#6366f1"/>
+    <line x1="32" y1="20" x2="32" y2="15" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
+    <line x1="27" y1="23" x2="23" y2="20" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
+    <line x1="37" y1="23" x2="41" y2="20" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
+  </svg>
+
+  <div class="top">
+    <span class="badge">LLMO Framework · Reference Implementation #1</span>
+    <h1>AI Native MEO</h1>
+    <p class="subtitle">The LLMO Framework's local-business implementation. Engineer-led, evidence-based optimization for the AI-driven local search era.</p>
+  </div>
+
+  <div class="bottom">
+    <span class="domain">ainativemeo.com</span>
+    <span class="author">By <strong>Ken Imoto</strong> · Propel-Lab</span>
+  </div>
+</body>
+</html>

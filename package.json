@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "og:generate": "node scripts/generate-og.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.18",
@@ -17,5 +18,8 @@
     "@tailwindcss/vite": "^4.2.4",
     "astro": "^6.2.1",
     "tailwindcss": "^4.2.4"
+  },
+  "devDependencies": {
+    "puppeteer": "^25.0.4"
   }
 }
