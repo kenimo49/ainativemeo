@@ -10,6 +10,7 @@ interface Props {
 const { title, description, lang, ogUrl, noindex = false } = Astro.props;
 const siteUrl = 'https://ainativemeo.com';
 const ogImage = `${siteUrl}/og-default.png`;
+const gaId = import.meta.env.PUBLIC_GA_ID ?? 'G-Z8XXW9S0D8';
 ---
 
 <!doctype html>
@@ -23,6 +24,17 @@ const ogImage = `${siteUrl}/og-default.png`;
     <link rel="canonical" href={ogUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    {gaId && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+        <script is:inline define:vars={{ gaId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', gaId);
+        </script>
+      </>
+    )}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={ogUrl} />
