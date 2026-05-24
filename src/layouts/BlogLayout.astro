@@ -3,6 +3,14 @@ import BaseLayout from './BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import type { Alternate } from '../lib/alternates';
 
+interface SlideImage {
+  src: string;
+  alt: string;
+  photographer?: string;
+  photographer_url?: string;
+  source?: string;
+}
+
 interface Props {
   title: string;
   description: string;
@@ -14,9 +22,10 @@ interface Props {
   canonicalUrl: string;
   ogImage?: string;
   alternates?: Alternate[];
+  images?: SlideImage[];
 }
 
-const { title, description, lang, date, updated, category, tags, canonicalUrl, ogImage, alternates = [] } = Astro.props;
+const { title, description, lang, date, updated, category, tags, canonicalUrl, ogImage, alternates = [], images = [] } = Astro.props;
 const formattedDate = date.toISOString().split('T')[0];
 const siteUrl = 'https://ainativemeo.com';
 const blogIndexUrl = lang === 'ja' ? '/ja/blog/' : '/blog/';
@@ -121,6 +130,31 @@ const articleMeta = {
       <p class="text-xl text-[var(--color-text-muted)] leading-relaxed">{description}</p>
     </header>
 
+    {images && images.length > 0 && (
+      <section class="image-slider" aria-label={lang === 'ja' ? '記事の画像スライド' : 'Article image slides'}>
+        <div class="slider-track">
+          {images.map((img) => (
+            <figure class="slide">
+              <img src={img.src} alt={img.alt} loading="lazy" width="800" height="500" />
+              {img.photographer && (
+                <figcaption>
+                  {lang === 'ja' ? '写真: ' : 'Photo: '}
+                  {img.photographer_url ? (
+                    <a href={img.photographer_url} rel="noopener noreferrer" target="_blank">{img.photographer}</a>
+                  ) : (
+                    <span>{img.photographer}</span>
+                  )}
+                  {img.source && (
+                    <span class="source"> / {img.source}</span>
+                  )}
+                </figcaption>
+              )}
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
+
     <div class="prose-content">
       <slot />
     </div>
@@ -218,6 +252,61 @@ const articleMeta = {
     .prose-content th {
       background: var(--color-bg-card);
       font-weight: 600;
+    }
+
+    .image-slider {
+      margin: 0 0 3rem 0;
+    }
+    .slider-track {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding: 0;
+      padding-bottom: 0.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-accent) transparent;
+    }
+    .slider-track::-webkit-scrollbar {
+      height: 6px;
+    }
+    .slider-track::-webkit-scrollbar-thumb {
+      background: var(--color-accent);
+      border-radius: 3px;
+    }
+    .slide {
+      flex: 0 0 85%;
+      scroll-snap-align: start;
+      margin: 0;
+    }
+    @media (min-width: 768px) {
+      .slide {
+        flex: 0 0 60%;
+      }
+    }
+    .slide img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
+    }
+    .slide figcaption {
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+      margin-top: 0.5rem;
+      line-height: 1.4;
+    }
+    .slide figcaption a {
+      color: var(--color-text-muted);
+      text-decoration: underline;
+    }
+    .slide figcaption a:hover {
+      color: var(--color-accent);
+    }
+    .slide figcaption .source {
+      opacity: 0.7;
     }
   </style>
 </BaseLayout>
