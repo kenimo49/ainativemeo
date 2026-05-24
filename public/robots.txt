@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ainativemeo.com/sitemap-index.xml
