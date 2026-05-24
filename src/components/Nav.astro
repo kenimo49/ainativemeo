@@ -1,0 +1,29 @@
+---
+interface Props {
+  lang: 'en' | 'ja';
+}
+const { lang } = Astro.props;
+
+const labels = {
+  en: { home: 'Home', about: 'About', ja: '日本語' },
+  ja: { home: 'ホーム', about: 'About', ja: 'EN' },
+};
+const l = labels[lang];
+
+const homeHref = lang === 'en' ? '/' : '/ja/';
+const aboutHref = lang === 'en' ? '/about/' : '/ja/about/';
+const langSwitchHref = lang === 'en' ? '/ja/' : '/';
+---
+
+<nav class="border-b border-[var(--color-border)] bg-[var(--color-bg)]">
+  <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href={homeHref} class="text-lg font-semibold text-[var(--color-text)] hover:no-underline">
+      AI Native MEO
+    </a>
+    <div class="flex items-center gap-6 text-sm">
+      <a href={homeHref}>{l.home}</a>
+      <a href={aboutHref}>{l.about}</a>
+      <a href={langSwitchHref} class="text-[var(--color-text-muted)]">{l.ja}</a>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+
+const title = 'AI Native MEO — LLMO Framework のローカルビジネス実装';
+const description = 'AI Native MEO は LLMO Framework をローカルビジネス領域に実装する方法論。AIに選ばれる店舗をつくるための、エンジニア視点の体系化。';
+const ogUrl = 'https://ainativemeo.com/ja/';
+---
+
+<BaseLayout title={title} description={description} lang="ja" ogUrl={ogUrl}>
+  <Nav lang="ja" />
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <section class="mb-16">
+      <p class="text-sm uppercase tracking-wider text-[var(--color-text-muted)] mb-4">
+        LLMO Framework · Reference Implementation #1
+      </p>
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+        AI Native MEO
+      </h1>
+      <p class="text-xl text-[var(--color-text-muted)] leading-relaxed mb-6">
+        <a href="https://llmoframework.com/" class="text-[var(--color-accent)]">LLMO Framework</a>
+        をローカルビジネス領域に実装する最初のリファレンス実装。お客様が「検索」ではなく「AI に相談」して店を選ぶ時代の最適化を扱います。
+      </p>
+      <p class="text-base text-[var(--color-text-muted)] leading-relaxed">
+        AI 検索最適化の領域では AEO や GEO といった用語も使われますが、
+        <strong class="text-[var(--color-text)]">LLMO (Large Language Model Optimization)</strong>
+        が最も精密なフレームワークとして急速に標準化が進んでいます。AI Native MEO はその LLMO のローカルビジネス領域への特化実装です。
+      </p>
+    </section>
+
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold mb-4">AI Native MEO とは</h2>
+      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
+        従来の MEO (Map Engine Optimization) は Google マップ順位を狙うものでした。AI Native MEO はその次のレイヤー — 顧客が ChatGPT / Gemini / Claude / Perplexity 等の生成 AI に自然言語で「近くで○○なお店ある?」と聞いたときに、AI が引用・推薦する側の店舗になるための運用を扱います。
+      </p>
+      <p class="text-base text-[var(--color-text-muted)] leading-relaxed">
+        本サイトは MEO 代理店の視点ではなく、LLMO Framework 標準に準拠した <strong class="text-[var(--color-text)]">エンジニア視点</strong>での体系化です。
+      </p>
+    </section>
+
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold mb-4">これから公開予定</h2>
+      <ul class="space-y-3 text-[var(--color-text-muted)]">
+        <li>• 書籍『AIに選ばれる店をつくる — 店舗オーナーのための AI Native MEO 入門』(Kindle JP 先行公開予定)</li>
+        <li>• GBP / JSON-LD / 各 AI エンジンの引用挙動に関する週次エンジニアリング解説</li>
+        <li>• LLMO vs GEO vs AEO — 実装レイヤーからの精密な比較</li>
+        <li>• LLMO Framework 上の業界別ケーススタディ</li>
+      </ul>
+    </section>
+
+    <footer class="pt-8 border-t border-[var(--color-border)] text-sm text-[var(--color-text-muted)]">
+      <p>
+        AI Native MEO は
+        <a href="https://llmoframework.com/" class="text-[var(--color-accent)]">LLMO Framework</a>
+        の上に構築されています。
+        <a href="https://kenimoto.dev/" class="text-[var(--color-accent)]">井本 賢 (Ken Imoto)</a>
+        の研究・出版エコシステムの一部です。
+      </p>
+    </footer>
+  </main>
+</BaseLayout>

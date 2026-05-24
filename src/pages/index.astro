@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+
+const title = 'AI Native MEO — LLMO Framework Local Business Implementation';
+const description = 'AI Native MEO is the LLMO Framework implementation for local businesses. Engineer-led, evidence-based optimization for the AI-driven local search era.';
+const ogUrl = 'https://ainativemeo.com/';
+---
+
+<BaseLayout title={title} description={description} lang="en" ogUrl={ogUrl}>
+  <Nav lang="en" />
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <section class="mb-16">
+      <p class="text-sm uppercase tracking-wider text-[var(--color-text-muted)] mb-4">
+        LLMO Framework · Reference Implementation #1
+      </p>
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+        AI Native MEO
+      </h1>
+      <p class="text-xl text-[var(--color-text-muted)] leading-relaxed mb-6">
+        The first reference implementation of the
+        <a href="https://llmoframework.com/" class="text-[var(--color-accent)]">LLMO Framework</a>
+        applied to local businesses. Built for the era when customers ask AI — not search engines — for recommendations.
+      </p>
+      <p class="text-base text-[var(--color-text-muted)] leading-relaxed">
+        While terms like AEO and GEO circulate in the AI search optimization space,
+        <strong class="text-[var(--color-text)]">LLMO (Large Language Model Optimization)</strong>
+        has emerged as the most precise framework — and AI Native MEO is its local-business specialization.
+      </p>
+    </section>
+
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold mb-4">What is AI Native MEO?</h2>
+      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
+        Traditional MEO (Map Engine Optimization) targeted Google Maps rankings. AI Native MEO targets the next layer:
+        being cited and recommended by generative AI systems like ChatGPT, Gemini, Claude, and Perplexity when users
+        ask for local recommendations in natural language.
+      </p>
+      <p class="text-base text-[var(--color-text-muted)] leading-relaxed">
+        This site is the engineer's perspective on that shift — written from the LLMO Framework standard,
+        not from a marketing agency's perspective.
+      </p>
+    </section>
+
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold mb-4">Coming Soon</h2>
+      <ul class="space-y-3 text-[var(--color-text-muted)]">
+        <li>• The book — <em>Engineering AI Native MEO</em> (Kindle JP first, EN to follow)</li>
+        <li>• Weekly engineering deep-dives on GBP, JSON-LD, and how each AI engine cites local data</li>
+        <li>• LLMO vs GEO vs AEO — a precise comparison from the implementation layer</li>
+        <li>• Industry case studies built on top of the LLMO Framework</li>
+      </ul>
+    </section>
+
+    <footer class="pt-8 border-t border-[var(--color-border)] text-sm text-[var(--color-text-muted)]">
+      <p>
+        AI Native MEO is built on the
+        <a href="https://llmoframework.com/" class="text-[var(--color-accent)]">LLMO Framework</a>.
+        Part of <a href="https://kenimoto.dev/" class="text-[var(--color-accent)]">Ken Imoto</a>'s research and publication ecosystem.
+      </p>
+    </footer>
+  </main>
+</BaseLayout>

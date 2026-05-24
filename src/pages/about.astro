@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+
+const title = 'About — AI Native MEO';
+const description = 'AI Native MEO is built and maintained by Ken Imoto as the LLMO Framework reference implementation for local businesses.';
+const ogUrl = 'https://ainativemeo.com/about/';
+---
+
+<BaseLayout title={title} description={description} lang="en" ogUrl={ogUrl}>
+  <Nav lang="en" />
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <h1 class="text-3xl font-bold mb-8">About AI Native MEO</h1>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-bold mb-3">Why this site exists</h2>
+      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
+        Local search optimization is shifting from "ranking on Google Maps" to "being recommended by AI". This site
+        documents that shift from an engineering perspective, grounded in the
+        <a href="https://llmoframework.com/" class="text-[var(--color-accent)]">LLMO Framework</a> standard.
+      </p>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-bold mb-3">Relationship with LLMO Framework</h2>
+      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
+        AI Native MEO is the first <strong class="text-[var(--color-text)]">Reference Implementation</strong> of the
+        LLMO Framework — applied to the local business / map search domain. Other industry implementations
+        (real estate, healthcare, education, legal) are planned as the framework matures.
+      </p>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-bold mb-3">Author</h2>
+      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
+        <a href="https://kenimoto.dev/" class="text-[var(--color-accent)]">Ken Imoto</a> — engineer, author of 30+
+        technical books on Kindle, founder of <a href="https://propel-lab.co.jp/" class="text-[var(--color-accent)]">Propel-Lab LLC</a>,
+        and maintainer of the LLMO Framework.
+      </p>
+    </section>
+  </main>
+</BaseLayout>

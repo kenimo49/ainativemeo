@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+
+const title = 'About — AI Native MEO';
+const description = 'AI Native MEO は井本 賢 (Ken Imoto) が運営する LLMO Framework のローカルビジネス向けリファレンス実装です。';
+const ogUrl = 'https://ainativemeo.com/ja/about/';
+---
+
+<BaseLayout title={title} description={description} lang="ja" ogUrl={ogUrl}>
+  <Nav lang="ja" />
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <h1 class="text-3xl font-bold mb-8">AI Native MEO について</h1>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-bold mb-3">なぜこのサイトを作るのか</h2>
+      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
+        ローカル検索最適化は「Google マップで順位を上げる」から「AI に推薦される」への移行期にあります。本サイトはその移行を、
+        <a href="https://llmoframework.com/" class="text-[var(--color-accent)]">LLMO Framework</a> 標準に準拠したエンジニア視点で記録します。
+      </p>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-bold mb-3">LLMO Framework との関係</h2>
+      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
+        AI Native MEO は LLMO Framework の最初の <strong class="text-[var(--color-text)]">リファレンス実装</strong>です。
+        ローカルビジネス / マップ検索領域への適用例として位置付けられています。将来的に不動産・医療・教育・法務などの業界別実装も予定しています。
+      </p>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-bold mb-3">著者</h2>
+      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
+        <a href="https://kenimoto.dev/" class="text-[var(--color-accent)]">井本 賢 (Ken Imoto)</a> — エンジニア、Kindle にて 30 冊以上の技術書を出版、
+        <a href="https://propel-lab.co.jp/" class="text-[var(--color-accent)]">合同会社 Propel-Lab</a> 代表、LLMO Framework メンテナ。
+      </p>
+    </section>
+  </main>
+</BaseLayout>
