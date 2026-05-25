@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+
+const title = '404 — Page not found · AI Native MEO';
+const description = 'The page you were looking for is not in this archive.';
+const ogUrl = 'https://ainativemeo.com/404/';
+---
+
+<BaseLayout title={title} description={description} lang="en" ogUrl={ogUrl} noindex={true}>
+  <Nav lang="en" />
+
+  <main class="errata">
+    <p class="eyebrow">Erratum · folio missing</p>
+    <h1 class="errata-num">404</h1>
+    <div class="errata-rule" aria-hidden="true"></div>
+    <p class="errata-lede">
+      The page you were looking for is not in this archive.
+    </p>
+    <p class="errata-body">
+      It may have been moved during a reorganisation, or it may have never existed.
+      Editorial work is ongoing &mdash; perhaps return to the front matter and try a different entry.
+    </p>
+
+    <div class="ornament" aria-hidden="true">§ &nbsp; § &nbsp; §</div>
+
+    <ul class="errata-links">
+      <li><a href="/">Return to the front page</a> <span class="muted">/ <a href="/ja/">日本語</a></span></li>
+      <li><a href="/blog/">Browse all articles</a> <span class="muted">/ <a href="/ja/blog/">記事一覧</a></span></li>
+      <li><a href="/about/">About this site</a> <span class="muted">/ <a href="/ja/about/">奥付</a></span></li>
+    </ul>
+  </main>
+</BaseLayout>
+
+<style>
+  .errata {
+    max-width: 36rem;
+    margin: 0 auto;
+    padding: 5rem 1.5rem 5rem;
+    text-align: center;
+  }
+  .eyebrow {
+    margin: 0 0 1rem;
+  }
+  .errata-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(6rem, 22vw, 11rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--color-red-civic);
+    margin: 0;
+  }
+  .errata-rule {
+    border-bottom: 2px solid var(--color-ink);
+    position: relative;
+    margin: 1.5rem auto 2rem;
+    max-width: 16rem;
+  }
+  .errata-rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    border-bottom: 1px solid var(--color-ink);
+  }
+  .errata-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--color-ink-soft);
+    margin: 0 0 1.25rem;
+    line-height: 1.45;
+  }
+  .errata-body {
+    font-family: var(--font-body);
+    font-size: 1.02rem;
+    line-height: 1.75;
+    color: var(--color-ink-soft);
+    margin: 0;
+    max-width: 28rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .ornament {
+    text-align: center;
+    color: var(--color-rule);
+    font-family: var(--font-display);
+    letter-spacing: 0.5em;
+    font-size: 1rem;
+    margin: 2.5rem 0 2rem;
+  }
+  .errata-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-smallcaps);
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.12em;
+    font-size: 0.95rem;
+    line-height: 2;
+  }
+  .errata-links a { color: var(--color-green-civic); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+  .errata-links a:hover { border-bottom-color: var(--color-green-civic); }
+  .errata-links .muted { color: var(--color-rule); }
+  .errata-links .muted a { color: var(--color-text-muted); }
+</style>

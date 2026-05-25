@@ -268,7 +268,8 @@ const breadcrumbJsonLd = {
       height: auto;
       aspect-ratio: 3 / 2;
       object-fit: cover;
-      filter: saturate(0.88) contrast(0.96);
+      /* warm-paper photo treatment: gentle sepia + slight desat + soft contrast */
+      filter: sepia(0.14) saturate(0.82) contrast(0.94) brightness(0.98);
     }
     .plate figcaption {
       margin-top: 0.85rem;
