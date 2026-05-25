@@ -25,6 +25,12 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? 'G-Z8XXW9S0D8';
     <link rel="canonical" href={ogUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Noto+Serif+JP:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     {gaId && (
       <>
         <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
@@ -46,37 +52,130 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? 'G-Z8XXW9S0D8';
       @import "tailwindcss";
 
       :root {
-        --color-bg: #0a0e1a;
-        --color-bg-card: #131826;
-        --color-text: #e6edf3;
-        --color-text-muted: #8b95a7;
-        --color-accent: #6366f1;
-        --color-accent-hover: #818cf8;
-        --color-border: #1f2937;
+        /* paper-and-ink palette (Editorial Almanac) */
+        --color-paper: #fbf9f4;
+        --color-paper-deep: #f3eee4;
+        --color-ink: #1a1815;
+        --color-ink-soft: #2d2924;
+        --color-rule: #d4cfc4;
+        --color-rule-soft: #e7e2d6;
+        --color-red-civic: #8b3a1f;
+        --color-red-civic-deep: #5e2810;
+        --color-green-civic: #1f4f4a;
+        --color-green-civic-deep: #143632;
+
+        /* legacy aliases — keep tailwind class refs working across pages */
+        --color-bg: var(--color-paper);
+        --color-bg-card: var(--color-paper-deep);
+        --color-text: var(--color-ink);
+        --color-text-muted: #6b6358;
+        --color-accent: var(--color-red-civic);
+        --color-accent-hover: var(--color-red-civic-deep);
+        --color-border: var(--color-rule);
+
+        --font-display: 'Fraunces', 'Noto Serif JP', Georgia, 'Times New Roman', serif;
+        --font-body: 'Source Serif 4', 'Noto Serif JP', Georgia, 'Times New Roman', serif;
+        --font-mono: 'IBM Plex Mono', 'Menlo', 'Consolas', monospace;
+        --font-smallcaps: 'Fraunces', 'Noto Serif JP', Georgia, serif;
       }
 
       html {
-        background: var(--color-bg);
-        color: var(--color-text);
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+        background: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+        font-size: 18px;
         -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
       }
 
       body {
-        background: var(--color-bg);
-        color: var(--color-text);
+        background: var(--color-paper);
+        color: var(--color-ink);
         margin: 0;
         min-height: 100vh;
+        font-feature-settings: "kern" 1, "liga" 1, "onum" 1;
+      }
+
+      /* full-bleed faint baseline rule pattern — almanac column feel */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background-image:
+          repeating-linear-gradient(
+            0deg,
+            transparent 0,
+            transparent 31px,
+            rgba(139, 58, 31, 0.025) 31px,
+            rgba(139, 58, 31, 0.025) 32px
+          );
+      }
+
+      body > * {
+        position: relative;
+        z-index: 1;
       }
 
       a {
-        color: var(--color-accent);
-        text-decoration: none;
+        color: var(--color-red-civic);
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+        text-decoration-color: rgba(139, 58, 31, 0.35);
+        transition: text-decoration-color 0.15s ease, color 0.15s ease;
       }
 
       a:hover {
-        color: var(--color-accent-hover);
-        text-decoration: underline;
+        color: var(--color-red-civic-deep);
+        text-decoration-color: var(--color-red-civic);
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-display);
+        color: var(--color-ink);
+        font-feature-settings: "kern" 1, "liga" 1, "ss01" 1;
+        letter-spacing: -0.01em;
+      }
+
+      ::selection {
+        background: var(--color-green-civic);
+        color: var(--color-paper);
+      }
+
+      code, kbd, samp {
+        font-family: var(--font-mono);
+        font-size: 0.92em;
+      }
+
+      /* utility — small-caps section marker */
+      .smallcaps {
+        font-family: var(--font-smallcaps);
+        font-variant-caps: all-small-caps;
+        letter-spacing: 0.12em;
+        font-weight: 500;
+        color: var(--color-green-civic);
+      }
+
+      /* utility — civic kicker (used as eyebrow above hero h1) */
+      .eyebrow {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 400;
+        color: var(--color-red-civic);
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+      }
+
+      /* utility — ornament divider */
+      .ornament {
+        text-align: center;
+        margin: 3.5rem 0;
+        color: var(--color-rule);
+        font-family: var(--font-display);
+        letter-spacing: 0.6em;
+        font-size: 1rem;
       }
     </style>
   </head>

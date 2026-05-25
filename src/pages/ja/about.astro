@@ -10,31 +10,123 @@ const ogUrl = 'https://ainativemeo.com/ja/about/';
 <BaseLayout title={title} description={description} lang="ja" ogUrl={ogUrl}>
   <Nav lang="ja" />
 
-  <main class="max-w-3xl mx-auto px-6 py-16">
-    <h1 class="text-3xl font-bold mb-8">AI Native MEO について</h1>
+  <main class="about">
+    <header class="about-head">
+      <p class="eyebrow">奥付</p>
+      <h1>AI&nbsp;Native MEO について</h1>
+      <div class="head-rule" aria-hidden="true"></div>
+    </header>
 
-    <section class="mb-12">
-      <h2 class="text-xl font-bold mb-3">なぜこのサイトを作るのか</h2>
-      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
-        ローカル検索最適化は「Google マップで順位を上げる」から「AI に推薦される」への移行期にあります。本サイトはその移行を、
-        <a href="https://llmoframework.com/" class="text-[var(--color-accent)]">LLMO Framework</a> 標準に準拠したエンジニア視点で記録します。
-      </p>
+    <section class="entry">
+      <p class="smallcaps entry-label">§ I — 前提</p>
+      <div class="entry-body">
+        <h2>なぜこのサイトを作るのか</h2>
+        <p>
+          ローカル検索最適化は「Google マップで順位を上げる」から「AI に推薦される」への移行期にあります。
+          本サイトはその移行を、
+          <a href="https://llmoframework.com/">LLMO Framework</a>
+          標準に準拠したエンジニア視点で記録します。
+        </p>
+      </div>
     </section>
 
-    <section class="mb-12">
-      <h2 class="text-xl font-bold mb-3">LLMO Framework との関係</h2>
-      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
-        AI Native MEO は LLMO Framework の最初の <strong class="text-[var(--color-text)]">リファレンス実装</strong>です。
-        ローカルビジネス / マップ検索領域への適用例として位置付けられています。将来的に不動産・医療・教育・法務などの業界別実装も予定しています。
-      </p>
+    <section class="entry">
+      <p class="smallcaps entry-label">§ II — 位置付け</p>
+      <div class="entry-body">
+        <h2>LLMO Framework との関係</h2>
+        <p>
+          AI Native MEO は LLMO Framework の最初の <strong>リファレンス実装</strong>です。
+          ローカルビジネス / マップ検索領域への適用例として位置付けられています。
+          将来的に不動産・医療・教育・法務などの業界別実装も予定しています。
+        </p>
+      </div>
     </section>
 
-    <section class="mb-12">
-      <h2 class="text-xl font-bold mb-3">著者</h2>
-      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
-        <a href="https://kenimoto.dev/" class="text-[var(--color-accent)]">井本 賢 (Ken Imoto)</a> — エンジニア、Kindle にて 30 冊以上の技術書を出版、
-        <a href="https://propel-lab.co.jp/" class="text-[var(--color-accent)]">合同会社 Propel-Lab</a> 代表、LLMO Framework メンテナ。
-      </p>
+    <section class="entry">
+      <p class="smallcaps entry-label">§ III — 著者</p>
+      <div class="entry-body">
+        <h2>編者 / メンテナ</h2>
+        <p>
+          <a href="https://kenimoto.dev/">井本 賢 (Ken Imoto)</a>
+          — エンジニア、Kindle にて 30 冊以上の技術書を出版、
+          <a href="https://propel-lab.co.jp/">合同会社 Propel-Lab</a> 代表、
+          LLMO Framework メンテナ。
+        </p>
+      </div>
     </section>
+
+    <div class="ornament" aria-hidden="true">§ &nbsp; § &nbsp; §</div>
   </main>
 </BaseLayout>
+
+<style>
+  .about {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+  }
+  .about-head { margin-bottom: 3rem; }
+  .about-head h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    margin: 0.5rem 0 0;
+    color: var(--color-ink);
+  }
+  .head-rule {
+    border-bottom: 2px solid var(--color-ink);
+    position: relative;
+    margin-top: 1.25rem;
+  }
+  .head-rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    border-bottom: 1px solid var(--color-ink);
+  }
+  .entry {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 1.75rem;
+    margin: 0 0 2.5rem;
+    align-items: start;
+  }
+  .entry-label {
+    margin: 0.4rem 0 0;
+    color: var(--color-green-civic);
+    line-height: 1;
+  }
+  .entry-body h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1.4;
+    margin: 0 0 0.75rem;
+    color: var(--color-ink);
+  }
+  .entry-body p {
+    font-family: var(--font-body);
+    font-size: 1.02rem;
+    line-height: 1.85;
+    color: var(--color-ink-soft);
+    margin: 0;
+  }
+  .entry-body strong { color: var(--color-ink); font-weight: 700; }
+  .entry-body a { color: var(--color-red-civic); }
+  @media (max-width: 700px) {
+    .entry { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+
+  .ornament {
+    text-align: center;
+    color: var(--color-rule);
+    font-family: var(--font-display);
+    letter-spacing: 0.5em;
+    font-size: 1rem;
+    margin: 3rem 0 1rem;
+  }
+</style>

@@ -10,34 +10,121 @@ const ogUrl = 'https://ainativemeo.com/about/';
 <BaseLayout title={title} description={description} lang="en" ogUrl={ogUrl}>
   <Nav lang="en" />
 
-  <main class="max-w-3xl mx-auto px-6 py-16">
-    <h1 class="text-3xl font-bold mb-8">About AI Native MEO</h1>
+  <main class="about">
+    <header class="about-head">
+      <p class="eyebrow">Colophon</p>
+      <h1>About AI&nbsp;Native MEO</h1>
+      <div class="head-rule" aria-hidden="true"></div>
+    </header>
 
-    <section class="mb-12">
-      <h2 class="text-xl font-bold mb-3">Why this site exists</h2>
-      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
-        Local search optimization is shifting from "ranking on Google Maps" to "being recommended by AI". This site
-        documents that shift from an engineering perspective, grounded in the
-        <a href="https://llmoframework.com/" class="text-[var(--color-accent)]">LLMO Framework</a> standard.
-      </p>
+    <section class="entry">
+      <p class="smallcaps entry-label">§ I — Premise</p>
+      <div class="entry-body">
+        <h2>Why this site exists</h2>
+        <p>
+          Local search optimization is shifting from "ranking on Google Maps" to "being recommended by AI."
+          This site documents that shift from an engineering perspective, grounded in the
+          <a href="https://llmoframework.com/">LLMO Framework</a> standard.
+        </p>
+      </div>
     </section>
 
-    <section class="mb-12">
-      <h2 class="text-xl font-bold mb-3">Relationship with LLMO Framework</h2>
-      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
-        AI Native MEO is the first <strong class="text-[var(--color-text)]">Reference Implementation</strong> of the
-        LLMO Framework — applied to the local business / map search domain. Other industry implementations
-        (real estate, healthcare, education, legal) are planned as the framework matures.
-      </p>
+    <section class="entry">
+      <p class="smallcaps entry-label">§ II — Position</p>
+      <div class="entry-body">
+        <h2>Relationship with the LLMO Framework</h2>
+        <p>
+          AI Native MEO is the first <strong>Reference Implementation</strong> of the LLMO Framework —
+          applied to the local business and map search domain. Other industry implementations
+          (real estate, healthcare, education, legal) are planned as the framework matures.
+        </p>
+      </div>
     </section>
 
-    <section class="mb-12">
-      <h2 class="text-xl font-bold mb-3">Author</h2>
-      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
-        <a href="https://kenimoto.dev/" class="text-[var(--color-accent)]">Ken Imoto</a> — engineer, author of 30+
-        technical books on Kindle, founder of <a href="https://propel-lab.co.jp/" class="text-[var(--color-accent)]">Propel-Lab LLC</a>,
-        and maintainer of the LLMO Framework.
-      </p>
+    <section class="entry">
+      <p class="smallcaps entry-label">§ III — Author</p>
+      <div class="entry-body">
+        <h2>Editor &amp; maintainer</h2>
+        <p>
+          <a href="https://kenimoto.dev/">Ken Imoto</a> — engineer, author of 30+ technical books on Kindle,
+          founder of <a href="https://propel-lab.co.jp/">Propel-Lab LLC</a>,
+          and maintainer of the LLMO Framework.
+        </p>
+      </div>
     </section>
+
+    <div class="ornament" aria-hidden="true">§ &nbsp; § &nbsp; §</div>
   </main>
 </BaseLayout>
+
+<style>
+  .about {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+  }
+  .about-head { margin-bottom: 3rem; }
+  .about-head h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    margin: 0.5rem 0 0;
+    color: var(--color-ink);
+  }
+  .head-rule {
+    border-bottom: 2px solid var(--color-ink);
+    position: relative;
+    margin-top: 1.25rem;
+  }
+  .head-rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    border-bottom: 1px solid var(--color-ink);
+  }
+  .entry {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 1.75rem;
+    margin: 0 0 2.5rem;
+    align-items: start;
+  }
+  .entry-label {
+    margin: 0.4rem 0 0;
+    color: var(--color-green-civic);
+    line-height: 1;
+  }
+  .entry-body h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.55rem;
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    color: var(--color-ink);
+  }
+  .entry-body p {
+    font-family: var(--font-body);
+    font-size: 1.04rem;
+    line-height: 1.75;
+    color: var(--color-ink-soft);
+    margin: 0;
+  }
+  .entry-body strong { color: var(--color-ink); font-weight: 700; }
+  .entry-body a { color: var(--color-red-civic); }
+  @media (max-width: 700px) {
+    .entry { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+
+  .ornament {
+    text-align: center;
+    color: var(--color-rule);
+    font-family: var(--font-display);
+    letter-spacing: 0.5em;
+    font-size: 1rem;
+    margin: 3rem 0 1rem;
+  }
+</style>

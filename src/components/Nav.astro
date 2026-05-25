@@ -8,6 +8,10 @@ const labels = {
   en: { home: 'Home', blog: 'Articles', about: 'About', ja: '日本語' },
   ja: { home: 'ホーム', blog: '記事', about: 'About', ja: 'EN' },
 };
+const tagline = {
+  en: 'LLMO Framework Reference Implementation №1',
+  ja: 'LLMO Framework リファレンス実装 №1',
+};
 const l = labels[lang];
 
 const homeHref = lang === 'en' ? '/' : '/ja/';
@@ -16,16 +20,115 @@ const aboutHref = lang === 'en' ? '/about/' : '/ja/about/';
 const langSwitchHref = lang === 'en' ? '/ja/' : '/';
 ---
 
-<nav class="border-b border-[var(--color-border)] bg-[var(--color-bg)]">
-  <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-    <a href={homeHref} class="text-lg font-semibold text-[var(--color-text)] hover:no-underline">
-      AI Native MEO
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href={homeHref} class="brand">
+      <span class="brand-mark">AI&nbsp;Native&nbsp;MEO</span>
+      <span class="brand-tagline">{tagline[lang]}</span>
     </a>
-    <div class="flex items-center gap-6 text-sm">
-      <a href={homeHref}>{l.home}</a>
-      <a href={blogHref}>{l.blog}</a>
-      <a href={aboutHref}>{l.about}</a>
-      <a href={langSwitchHref} class="text-[var(--color-text-muted)]">{l.ja}</a>
-    </div>
+    <ul class="nav-links">
+      <li><a href={homeHref}>{l.home}</a></li>
+      <li><a href={blogHref}>{l.blog}</a></li>
+      <li><a href={aboutHref}>{l.about}</a></li>
+      <li><a href={langSwitchHref} class="lang">{l.ja}</a></li>
+    </ul>
   </div>
+  <div class="nav-rule" aria-hidden="true"></div>
 </nav>
+
+<style>
+  .site-nav {
+    background: var(--color-paper);
+    padding-top: 1.5rem;
+  }
+  .nav-inner {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .brand {
+    color: var(--color-ink);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+  .brand:hover {
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+  .brand-mark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.7rem;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+  }
+  .brand-tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.82rem;
+    color: var(--color-red-civic);
+    margin-top: 0.35rem;
+    letter-spacing: 0.01em;
+  }
+  .nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.75rem;
+    align-items: baseline;
+  }
+  .nav-links a {
+    font-family: var(--font-smallcaps);
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.14em;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--color-ink);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 0.15rem;
+    transition: border-color 0.15s ease;
+  }
+  .nav-links a:hover {
+    color: var(--color-red-civic);
+    border-bottom-color: var(--color-red-civic);
+    text-decoration: none;
+  }
+  .nav-links a.lang {
+    color: var(--color-green-civic);
+  }
+  .nav-rule {
+    max-width: 64rem;
+    margin: 1.25rem auto 0;
+    padding: 0 1.5rem;
+    border-bottom: 2px solid var(--color-ink);
+    position: relative;
+  }
+  .nav-rule::after {
+    content: "";
+    position: absolute;
+    left: 1.5rem;
+    bottom: -6px;
+    width: calc(100% - 3rem);
+    border-bottom: 1px solid var(--color-ink);
+  }
+  @media (max-width: 600px) {
+    .nav-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .nav-links {
+      gap: 1.25rem;
+    }
+  }
+</style>

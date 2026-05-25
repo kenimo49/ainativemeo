@@ -20,70 +20,299 @@ const categoryLabel = (cat: string) => {
 <BaseLayout title={title} description={description} lang="en" ogUrl={ogUrl}>
   <Nav lang="en" />
 
-  <main class="max-w-3xl mx-auto px-6 py-16">
-    <section class="mb-16">
-      <p class="text-sm uppercase tracking-wider text-[var(--color-text-muted)] mb-4">
-        LLMO Framework · Reference Implementation #1
-      </p>
-      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
-        AI Native MEO
+  <main class="home">
+    <section class="hero">
+      <p class="eyebrow">Reference Implementation №1 · est. 2026</p>
+      <h1 class="hero-title">
+        <span class="hero-title-line-1">AI&nbsp;Native</span>
+        <span class="hero-title-line-2">MEO</span>
       </h1>
-      <p class="text-xl text-[var(--color-text-muted)] leading-relaxed mb-6">
+      <div class="hero-rule" aria-hidden="true"></div>
+      <p class="hero-lede">
         The first reference implementation of the
-        <a href="https://llmoframework.com/" class="text-[var(--color-accent)]">LLMO Framework</a>
-        applied to local businesses. Built for the era when customers ask AI — not search engines — for recommendations.
+        <a href="https://llmoframework.com/">LLMO Framework</a>,
+        applied to local businesses — for the era when customers ask AI, not search engines, for recommendations.
       </p>
-      <p class="text-base text-[var(--color-text-muted)] leading-relaxed">
-        While terms like AEO and GEO circulate in the AI search optimization space,
-        <strong class="text-[var(--color-text)]">LLMO (Large Language Model Optimization)</strong>
-        has emerged as the most precise framework — and AI Native MEO is its local-business specialization.
+      <p class="hero-sub">
+        While terms like AEO and GEO circulate in the AI-search optimization space,
+        <strong>LLMO (Large Language Model Optimization)</strong>
+        has emerged as the most precise framework. AI Native MEO is its local-business specialization.
       </p>
     </section>
 
-    <section class="mb-16">
-      <h2 class="text-2xl font-bold mb-4">What is AI Native MEO?</h2>
-      <p class="text-base text-[var(--color-text-muted)] leading-relaxed mb-4">
-        Traditional MEO (Map Engine Optimization) targeted Google Maps rankings. AI Native MEO targets the next layer:
-        being cited and recommended by generative AI systems like ChatGPT, Gemini, Claude, and Perplexity when users
-        ask for local recommendations in natural language.
-      </p>
-      <p class="text-base text-[var(--color-text-muted)] leading-relaxed">
-        This site is the engineer's perspective on that shift — written from the LLMO Framework standard,
-        not from a marketing agency's perspective.
-      </p>
+    <div class="ornament">§ &nbsp; § &nbsp; §</div>
+
+    <section class="definition">
+      <p class="smallcaps def-label">Definition</p>
+      <h2 class="def-title">What AI Native MEO is</h2>
+      <div class="def-body">
+        <p>
+          Traditional MEO (Map Engine Optimization) targeted Google Maps rankings.
+          AI Native MEO targets the next layer: <strong>being cited and recommended by generative AI systems</strong>
+          — ChatGPT, Gemini, Claude, Perplexity — when users ask for local recommendations in natural language.
+        </p>
+        <p>
+          This site is the engineer's perspective on that shift, written from the LLMO Framework standard,
+          not from a marketing agency's vantage point.
+        </p>
+      </div>
     </section>
 
     {posts.length > 0 && (
-      <section class="mb-16">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold">Latest articles</h2>
-          <a href="/blog/" class="text-sm text-[var(--color-accent)]">All articles →</a>
-        </div>
-        <div class="flex flex-col gap-6">
-          {posts.map(post => (
-            <a href={`/blog/${post.id.replace('en/', '')}/`} class="block group hover:no-underline">
-              <article class="pb-5 border-b border-[var(--color-border)]">
-                <div class="flex items-center gap-3 text-xs uppercase tracking-wider text-[var(--color-text-muted)] mb-2">
-                  <span>{categoryLabel(post.data.category)}</span>
-                  <time datetime={post.data.date.toISOString()}>{post.data.date.toISOString().split('T')[0]}</time>
+      <section class="latest">
+        <header class="latest-head">
+          <p class="smallcaps">Recent entries</p>
+          <a href="/blog/" class="all-link">All articles →</a>
+        </header>
+        <ol class="entry-list">
+          {posts.map((post, idx) => (
+            <li class="entry">
+              <a href={`/blog/${post.id.replace('en/', '')}/`} class="entry-link">
+                <span class="entry-no">{String(idx + 1).padStart(2, '0')}</span>
+                <div class="entry-body">
+                  <div class="entry-meta">
+                    <span class={`entry-cat cat-${post.data.category}`}>{categoryLabel(post.data.category)}</span>
+                    <time datetime={post.data.date.toISOString()}>{post.data.date.toISOString().split('T')[0]}</time>
+                  </div>
+                  <h3 class="entry-title">{post.data.title}</h3>
+                  <p class="entry-desc">{post.data.description}</p>
                 </div>
-                <h3 class="text-lg font-bold mb-1 text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">
-                  {post.data.title}
-                </h3>
-                <p class="text-sm text-[var(--color-text-muted)]">{post.data.description}</p>
-              </article>
-            </a>
+              </a>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
     )}
 
-    <footer class="pt-8 border-t border-[var(--color-border)] text-sm text-[var(--color-text-muted)]">
+    <footer class="colophon">
+      <div class="ornament">§ &nbsp; § &nbsp; §</div>
       <p>
         AI Native MEO is built on the
-        <a href="https://llmoframework.com/" class="text-[var(--color-accent)]">LLMO Framework</a>.
-        Part of <a href="https://kenimoto.dev/" class="text-[var(--color-accent)]">Ken Imoto</a>'s research and publication ecosystem.
+        <a href="https://llmoframework.com/">LLMO Framework</a>.
+        Part of <a href="https://kenimoto.dev/">Ken Imoto</a>'s research and publication ecosystem.
       </p>
     </footer>
   </main>
 </BaseLayout>
+
+<style>
+  .home {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  /* ===== hero ===== */
+  .hero {
+    margin-bottom: 1.5rem;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(3.5rem, 10vw, 6.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    margin: 0.6rem 0 0.6rem;
+    color: var(--color-ink);
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-title-line-1 {
+    display: block;
+  }
+  .hero-title-line-2 {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-red-civic);
+    margin-left: 2.5rem;
+    margin-top: -0.4rem;
+  }
+  .hero-rule {
+    border-bottom: 2px solid var(--color-ink);
+    position: relative;
+    margin: 1.2rem 0 1.5rem;
+  }
+  .hero-rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    border-bottom: 1px solid var(--color-ink);
+  }
+  .hero-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.3rem;
+    line-height: 1.55;
+    color: var(--color-ink-soft);
+    margin: 0 0 1.25rem;
+  }
+  .hero-sub {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--color-ink-soft);
+    margin: 0;
+  }
+  .hero-sub strong {
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+
+  .ornament {
+    text-align: center;
+    color: var(--color-rule);
+    font-family: var(--font-display);
+    letter-spacing: 0.5em;
+    font-size: 1rem;
+    margin: 3rem 0;
+  }
+
+  /* ===== definition section ===== */
+  .definition {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 2rem;
+    margin: 0 0 1rem;
+  }
+  .def-label {
+    margin: 0.3rem 0 0;
+    color: var(--color-green-civic);
+    line-height: 1;
+  }
+  .def-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.85rem;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin: 0 0 1rem;
+    color: var(--color-ink);
+  }
+  .def-body p {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--color-ink-soft);
+    margin: 0 0 1rem;
+  }
+  .def-body p:last-child { margin-bottom: 0; }
+  .def-body strong { color: var(--color-ink); font-weight: 700; }
+  .def-body a { color: var(--color-red-civic); }
+  @media (max-width: 700px) {
+    .definition {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+  }
+
+  /* ===== latest entries ===== */
+  .latest {
+    margin: 0;
+  }
+  .latest-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-rule);
+    padding-bottom: 0.5rem;
+  }
+  .latest-head .smallcaps {
+    margin: 0;
+  }
+  .all-link {
+    font-family: var(--font-smallcaps);
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.14em;
+    color: var(--color-red-civic);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  .all-link:hover { text-decoration: underline; }
+
+  .entry-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .entry {
+    border-bottom: 1px solid var(--color-rule);
+  }
+  .entry-link {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+  .entry-link:hover { text-decoration: none; }
+  .entry-link:hover .entry-title { color: var(--color-red-civic); }
+  .entry-no {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 2.4rem;
+    color: var(--color-rule);
+    line-height: 1;
+    text-align: right;
+    padding-top: 0.1rem;
+  }
+  .entry-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    font-family: var(--font-smallcaps);
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.14em;
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+  .entry-cat { color: var(--color-green-civic); font-weight: 500; }
+  .entry-cat.cat-framework { color: var(--color-red-civic); }
+  .entry-cat.cat-comparison { color: var(--color-ink-soft); }
+  .entry-meta time {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-variant-caps: normal;
+    letter-spacing: 0;
+    font-size: 0.82rem;
+  }
+  .entry-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.4rem;
+    line-height: 1.25;
+    margin: 0 0 0.4rem;
+    color: var(--color-ink);
+    transition: color 0.15s ease;
+  }
+  .entry-desc {
+    font-family: var(--font-body);
+    font-size: 0.97rem;
+    line-height: 1.6;
+    color: var(--color-ink-soft);
+    margin: 0;
+  }
+
+  .colophon {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  .colophon p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--color-ink-soft);
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 32rem;
+  }
+  .colophon a { color: var(--color-red-civic); }
+</style>

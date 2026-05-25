@@ -40,6 +40,11 @@ const categoryLabel = (cat?: string) => {
   return labels[cat]?.[lang === 'ja' ? 'ja' : 'en'] || cat;
 };
 
+const toRoman = (n: number) => {
+  const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+  return numerals[n - 1] || String(n);
+};
+
 const blogPostingJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
@@ -100,14 +105,6 @@ const breadcrumbJsonLd = {
     item: item.url,
   })),
 };
-
-const articleMeta = {
-  publishedTime: date.toISOString(),
-  modifiedTime: (updated ?? date).toISOString(),
-  author: 'Ken Imoto',
-  ...(category ? { section: categoryLabel(category) } : {}),
-  ...(tags && tags.length > 0 ? { tags } : {}),
-};
 ---
 
 <BaseLayout
@@ -118,40 +115,45 @@ const articleMeta = {
 >
   <Nav lang={lang} />
 
-  <article class="max-w-3xl mx-auto px-6 py-12">
-    <header class="mb-10 pb-8 border-b border-[var(--color-border)]">
-      <div class="flex items-center gap-3 text-sm text-[var(--color-text-muted)] mb-4">
+  <article class="article-shell">
+    <header class="article-header">
+      <div class="article-meta">
         {category && (
-          <span class="uppercase tracking-wider">{categoryLabel(category)}</span>
+          <span class={`category-pill cat-${category}`}>{categoryLabel(category)}</span>
         )}
-        <time datetime={formattedDate}>{formattedDate}</time>
+        <time class="article-date" datetime={formattedDate}>{formattedDate}</time>
       </div>
-      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">{title}</h1>
-      <p class="text-xl text-[var(--color-text-muted)] leading-relaxed">{description}</p>
+      <h1 class="article-title">{title}</h1>
+      <p class="article-lede">{description}</p>
+      <div class="article-rule" aria-hidden="true"></div>
     </header>
 
     {images && images.length > 0 && (
-      <section class="image-slider" aria-label={lang === 'ja' ? '記事の画像スライド' : 'Article image slides'}>
-        <div class="slider-track">
-          {images.map((img) => (
-            <figure class="slide">
-              <img src={img.src} alt={img.alt} loading="lazy" width="800" height="500" />
+      <section class="plate-gallery" aria-label={lang === 'ja' ? '挿図' : 'Plates'}>
+        {images.map((img, idx) => (
+          <figure class="plate">
+            <div class="plate-frame">
+              <img src={img.src} alt={img.alt} loading="lazy" width="900" height="600" />
+            </div>
+            <figcaption>
+              <span class="plate-number">{lang === 'ja' ? `図 ${toRoman(idx + 1)}` : `Plate ${toRoman(idx + 1)}`}</span>
+              <span class="plate-alt">{img.alt}</span>
               {img.photographer && (
-                <figcaption>
-                  {lang === 'ja' ? '写真: ' : 'Photo: '}
+                <span class="plate-credit">
+                  {lang === 'ja' ? '撮影: ' : 'Photograph: '}
                   {img.photographer_url ? (
                     <a href={img.photographer_url} rel="noopener noreferrer" target="_blank">{img.photographer}</a>
                   ) : (
                     <span>{img.photographer}</span>
                   )}
                   {img.source && (
-                    <span class="source"> / {img.source}</span>
+                    <span class="plate-source"> · {img.source}</span>
                   )}
-                </figcaption>
+                </span>
               )}
-            </figure>
-          ))}
-        </div>
+            </figcaption>
+          </figure>
+        ))}
       </section>
     )}
 
@@ -159,14 +161,15 @@ const articleMeta = {
       <slot />
     </div>
 
-    <footer class="mt-16 pt-8 border-t border-[var(--color-border)] text-sm text-[var(--color-text-muted)]">
-      <p>
+    <footer class="article-footer">
+      <div class="ornament" aria-hidden="true">§ &nbsp; § &nbsp; §</div>
+      <p class="colophon">
         AI Native MEO is built on the
-        <a href="https://llmoframework.com/" class="text-[var(--color-accent)]">LLMO Framework</a>.
-        Part of <a href="https://kenimoto.dev/" class="text-[var(--color-accent)]">Ken Imoto</a>'s research and publication ecosystem.
+        <a href="https://llmoframework.com/">LLMO Framework</a>.
+        Part of <a href="https://kenimoto.dev/">Ken Imoto</a>'s research and publication ecosystem.
       </p>
-      <p class="mt-2">
-        <a href={blogIndexUrl} class="text-[var(--color-accent)]">
+      <p class="back-link">
+        <a href={blogIndexUrl}>
           {lang === 'ja' ? '← 記事一覧に戻る' : '← Back to articles'}
         </a>
       </p>
@@ -176,137 +179,338 @@ const articleMeta = {
   <script type="application/ld+json" set:html={JSON.stringify(blogPostingJsonLd)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
 
+  <style>
+    .article-shell {
+      max-width: 44rem;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+    .article-header {
+      margin-bottom: 2.5rem;
+    }
+    .article-meta {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      font-family: var(--font-smallcaps);
+      font-variant-caps: all-small-caps;
+      letter-spacing: 0.14em;
+      font-size: 0.95rem;
+    }
+    .category-pill {
+      color: var(--color-green-civic);
+      font-weight: 500;
+    }
+    .cat-engineering { color: var(--color-green-civic); }
+    .cat-framework { color: var(--color-red-civic); }
+    .cat-comparison { color: var(--color-ink-soft); }
+    .article-date {
+      color: var(--color-text-muted);
+      font-family: var(--font-mono);
+      font-variant-caps: normal;
+      letter-spacing: 0;
+      font-size: 0.85rem;
+    }
+    .article-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(2.1rem, 4.2vw, 3.1rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin: 0 0 1.1rem 0;
+      color: var(--color-ink);
+    }
+    .article-lede {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.25rem;
+      line-height: 1.55;
+      color: var(--color-ink-soft);
+      margin: 0 0 1.5rem 0;
+    }
+    .article-rule {
+      border-bottom: 2px solid var(--color-ink);
+      position: relative;
+      margin-top: 1.5rem;
+    }
+    .article-rule::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 100%;
+      border-bottom: 1px solid var(--color-ink);
+    }
+
+    /* plate gallery — almanac plate feel */
+    .plate-gallery {
+      display: grid;
+      gap: 2.25rem;
+      margin: 2.5rem 0 3rem;
+    }
+    .plate {
+      margin: 0;
+    }
+    .plate-frame {
+      padding: 0.55rem;
+      background: var(--color-paper-deep);
+      border: 1px solid var(--color-rule);
+      box-shadow:
+        0 1px 0 var(--color-rule-soft),
+        0 0 0 4px var(--color-paper),
+        0 0 0 5px var(--color-rule);
+    }
+    .plate-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      filter: saturate(0.88) contrast(0.96);
+    }
+    .plate figcaption {
+      margin-top: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      color: var(--color-ink-soft);
+      text-align: center;
+    }
+    .plate-number {
+      font-family: var(--font-smallcaps);
+      font-variant-caps: all-small-caps;
+      letter-spacing: 0.18em;
+      color: var(--color-red-civic);
+      font-weight: 500;
+    }
+    .plate-alt {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--color-ink-soft);
+    }
+    .plate-credit {
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+      font-family: var(--font-body);
+    }
+    .plate-credit a {
+      color: var(--color-text-muted);
+      text-decoration-color: rgba(107, 99, 88, 0.45);
+    }
+    .plate-credit a:hover {
+      color: var(--color-red-civic);
+    }
+    .plate-source {
+      opacity: 0.75;
+    }
+
+    .article-footer {
+      margin-top: 4rem;
+    }
+    .ornament {
+      text-align: center;
+      color: var(--color-rule);
+      font-family: var(--font-display);
+      letter-spacing: 0.5em;
+      font-size: 1rem;
+      margin: 0 0 2rem;
+    }
+    .colophon {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--color-ink-soft);
+      text-align: center;
+      margin: 0 0 1rem;
+      line-height: 1.6;
+    }
+    .back-link {
+      text-align: center;
+      font-family: var(--font-smallcaps);
+      font-variant-caps: all-small-caps;
+      letter-spacing: 0.14em;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+    .back-link a {
+      text-decoration: none;
+      color: var(--color-green-civic);
+    }
+  </style>
+
   <style is:global>
     .prose-content {
-      color: var(--color-text);
-      font-size: 1.05rem;
-      line-height: 1.8;
+      color: var(--color-ink);
+      font-family: var(--font-body);
+      font-size: 1.07rem;
+      line-height: 1.75;
+      font-feature-settings: "kern" 1, "liga" 1, "onum" 1;
+    }
+    /* drop cap on the very first paragraph of the article */
+    .prose-content > p:first-of-type::first-letter {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 4.4rem;
+      line-height: 0.88;
+      float: left;
+      margin: 0.18rem 0.45rem 0 0;
+      color: var(--color-red-civic);
+    }
+    .prose-content :is(h2, h3, h4) {
+      font-family: var(--font-display);
+      color: var(--color-ink);
     }
     .prose-content h2 {
-      font-size: 1.75rem;
+      font-size: 1.7rem;
       font-weight: 700;
-      margin-top: 3rem;
-      margin-bottom: 1rem;
-      color: var(--color-text);
+      margin: 3rem 0 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--color-rule);
+      letter-spacing: -0.01em;
     }
     .prose-content h3 {
-      font-size: 1.35rem;
+      font-size: 1.3rem;
       font-weight: 600;
-      margin-top: 2.25rem;
-      margin-bottom: 0.75rem;
-      color: var(--color-text);
+      margin: 2.25rem 0 0.75rem;
+    }
+    .prose-content h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-style: italic;
+      margin: 1.75rem 0 0.5rem;
+      color: var(--color-ink-soft);
     }
     .prose-content p {
-      margin-bottom: 1.25rem;
+      margin: 0 0 1.2rem;
     }
     .prose-content ul, .prose-content ol {
-      margin: 1rem 0 1.5rem 1.5rem;
+      margin: 1rem 0 1.5rem 1.25rem;
+      padding-left: 0.5rem;
     }
     .prose-content li {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
-    .prose-content a {
-      color: var(--color-accent);
+    .prose-content ul > li::marker {
+      color: var(--color-red-civic);
+      content: "§ ";
     }
-    .prose-content a:hover {
-      color: var(--color-accent-hover);
-    }
-    .prose-content strong {
-      color: var(--color-text);
+    .prose-content ol > li::marker {
+      color: var(--color-red-civic);
+      font-family: var(--font-display);
       font-weight: 600;
     }
+    .prose-content a {
+      color: var(--color-red-civic);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+      text-decoration-color: rgba(139, 58, 31, 0.35);
+    }
+    .prose-content a:hover {
+      color: var(--color-red-civic-deep);
+      text-decoration-color: var(--color-red-civic);
+    }
+    .prose-content strong {
+      color: var(--color-ink);
+      font-weight: 700;
+    }
+    .prose-content em {
+      font-style: italic;
+      color: var(--color-ink);
+    }
     .prose-content code {
-      background: var(--color-bg-card);
-      padding: 0.15em 0.4em;
-      border-radius: 4px;
-      font-size: 0.9em;
+      background: var(--color-paper-deep);
+      padding: 0.1em 0.4em;
+      border: 1px solid var(--color-rule);
+      border-radius: 2px;
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      color: var(--color-green-civic-deep);
     }
     .prose-content pre {
-      background: var(--color-bg-card);
-      padding: 1rem;
-      border-radius: 6px;
+      background: var(--color-paper-deep);
+      border: 1px solid var(--color-rule);
+      padding: 1.1rem 1.25rem;
+      margin: 1.75rem 0;
       overflow-x: auto;
-      margin: 1.5rem 0;
+      border-left: 3px solid var(--color-green-civic);
+      font-size: 0.92rem;
+      line-height: 1.55;
     }
     .prose-content pre code {
       background: transparent;
       padding: 0;
+      border: 0;
+      color: var(--color-ink);
+      font-size: inherit;
     }
     .prose-content blockquote {
-      border-left: 3px solid var(--color-accent);
-      padding-left: 1rem;
-      margin: 1.5rem 0;
-      color: var(--color-text-muted);
+      border: 0;
+      border-left: 3px solid var(--color-red-civic);
+      padding: 0.2rem 0 0.2rem 1.25rem;
+      margin: 1.75rem 0;
+      color: var(--color-ink-soft);
+      font-family: var(--font-display);
       font-style: italic;
+      font-size: 1.08rem;
+      line-height: 1.6;
     }
+    .prose-content blockquote p {
+      margin: 0 0 0.7rem;
+    }
+    .prose-content blockquote p:last-child { margin-bottom: 0; }
     .prose-content table {
       width: 100%;
       border-collapse: collapse;
-      margin: 1.5rem 0;
+      margin: 1.75rem 0;
+      font-size: 0.95rem;
+      font-family: var(--font-body);
+    }
+    .prose-content table caption {
+      caption-side: top;
+      text-align: left;
+      font-family: var(--font-smallcaps);
+      font-variant-caps: all-small-caps;
+      letter-spacing: 0.14em;
+      color: var(--color-green-civic);
+      padding-bottom: 0.5rem;
     }
     .prose-content th, .prose-content td {
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--color-border);
+      padding: 0.65rem 0.9rem;
+      border-bottom: 1px solid var(--color-rule);
       text-align: left;
+      vertical-align: top;
     }
-    .prose-content th {
-      background: var(--color-bg-card);
+    .prose-content thead th {
+      border-bottom: 2px solid var(--color-ink);
+      font-family: var(--font-display);
       font-weight: 600;
+      background: transparent;
     }
-
-    .image-slider {
-      margin: 0 0 3rem 0;
+    .prose-content hr {
+      border: 0;
+      text-align: center;
+      margin: 3rem 0;
+      color: var(--color-rule);
+      overflow: visible;
     }
-    .slider-track {
-      display: flex;
-      gap: 1rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-padding: 0;
-      padding-bottom: 0.5rem;
-      scrollbar-width: thin;
-      scrollbar-color: var(--color-accent) transparent;
+    .prose-content hr::before {
+      content: "§ § §";
+      font-family: var(--font-display);
+      letter-spacing: 0.5em;
+      color: var(--color-rule);
     }
-    .slider-track::-webkit-scrollbar {
-      height: 6px;
-    }
-    .slider-track::-webkit-scrollbar-thumb {
-      background: var(--color-accent);
-      border-radius: 3px;
-    }
-    .slide {
-      flex: 0 0 85%;
-      scroll-snap-align: start;
-      margin: 0;
-    }
-    @media (min-width: 768px) {
-      .slide {
-        flex: 0 0 60%;
-      }
-    }
-    .slide img {
-      width: 100%;
+    .prose-content img {
+      max-width: 100%;
       height: auto;
-      aspect-ratio: 16 / 10;
-      object-fit: cover;
-      border-radius: 6px;
-      display: block;
-    }
-    .slide figcaption {
-      font-size: 0.78rem;
-      color: var(--color-text-muted);
-      margin-top: 0.5rem;
-      line-height: 1.4;
-    }
-    .slide figcaption a {
-      color: var(--color-text-muted);
-      text-decoration: underline;
-    }
-    .slide figcaption a:hover {
-      color: var(--color-accent);
-    }
-    .slide figcaption .source {
-      opacity: 0.7;
+      padding: 0.5rem;
+      background: var(--color-paper-deep);
+      border: 1px solid var(--color-rule);
     }
   </style>
 </BaseLayout>
