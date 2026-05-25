@@ -175,15 +175,20 @@ const categoryLabel = (cat: string) => {
   .definition {
     display: grid;
     grid-template-columns: 9rem 1fr;
-    gap: 2rem;
+    column-gap: 2rem;
+    row-gap: 0;
     margin: 0 0 1rem;
   }
   .def-label {
-    margin: 0.3rem 0 0;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    margin: 0.45rem 0 0;
     color: var(--color-green-civic);
     line-height: 1;
   }
   .def-title {
+    grid-column: 2;
+    grid-row: 1;
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 1.85rem;
@@ -191,6 +196,10 @@ const categoryLabel = (cat: string) => {
     letter-spacing: -0.015em;
     margin: 0 0 1rem;
     color: var(--color-ink);
+  }
+  .def-body {
+    grid-column: 2;
+    grid-row: 2;
   }
   .def-body p {
     font-family: var(--font-body);
@@ -205,7 +214,12 @@ const categoryLabel = (cat: string) => {
   @media (max-width: 700px) {
     .definition {
       grid-template-columns: 1fr;
-      gap: 0.75rem;
+      column-gap: 0;
+      row-gap: 0.75rem;
+    }
+    .def-label, .def-title, .def-body {
+      grid-column: 1;
+      grid-row: auto;
     }
   }
 
